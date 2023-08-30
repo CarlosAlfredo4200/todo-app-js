@@ -1,12 +1,11 @@
 import { Todo } from "../todo/models/todo";
 
 // Filters en mayusculas para indicar que sera una numeracion
-const Filters = {
+export const Filters = {
   All: "All",
   Completed: "Completed",
   Pending: "Pending",
 };
-
 
 const state = {
   todos: [
@@ -20,14 +19,22 @@ const state = {
 };
 
 const initStore = () => {
-  console.log(state);
+  loadStore();
   console.log("InitStore ");
 };
 
 //--------- Metodos ----------------
 
 const loadStore = () => {
-  throw new Error("not implemented");
+  if( !localStorage.getItem('state')) return;
+  const { todos = [], filter = Filters.All} = JSON.parse(localStorage.getItem('state'));
+  state.todos = todos;
+  state.filter = filter;
+};
+
+const saveStateLocalStorage = () => {
+  localStorage.setItem('state', JSON.stringify(state))
+  
 };
 
 const getTodos = (filter = Filters.All) => {
@@ -52,7 +59,8 @@ const getTodos = (filter = Filters.All) => {
  */
 const addTodo = (description) => {
   if (!description) throw new Error("Description is required");
-state.todos.push(new Todo(description))
+  state.todos.push(new Todo(description));
+  saveStateLocalStorage();
 };
 
 /**
@@ -60,28 +68,32 @@ state.todos.push(new Todo(description))
  * @param {String} todoId
  */
 const toggleTodo = (todoId) => {
-  state.todos = state.todos.map( todo => {
+  state.todos = state.todos.map((todo) => {
     if (todo.id === todoId) {
-        todo.done = !todo.done;
+      todo.done = !todo.done;
     }
     return todo;
-  })
+  });
+  saveStateLocalStorage();
 };
 
 const deleteTodo = (todoId) => {
-  state.todos = state.todos.filter( todo => todo.id !== todoId); 
+  state.todos = state.todos.filter((todo) => todo.id !== todoId);
+  saveStateLocalStorage();
 };
 
-const deleteCompletedTodo = (todoId) => {
-    state.todos = state.todos.filter( todo => todo.done); 
+const deleteCompletedTodo = () => {
+  state.todos = state.todos.filter((todo) => !todo.done);
+  saveStateLocalStorage();
 };
 
 /**
- * 
- * @param {Filters} newFilter 
+ *
+ * @param {Filters} newFilter
  */
 const setFilterTodo = (newFilter = Filters.All) => {
   state.filter = newFilter;
+  saveStateLocalStorage();
 };
 
 // obtener filtro actual
