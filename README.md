@@ -1,12 +1,5 @@
 # TodoList App with JavaScript Vanilla and Vite.js
 
-![Animated Header](header-animation.gif)
-
-This is a TodoList application developed using JavaScript Vanilla and Vite.js...
-
-
-# TodoList App with JavaScript Vanilla and Vite.js
-
 This is a TodoList application developed using JavaScript Vanilla and Vite.js. In this application, we will learn about various concepts, including scopes, local variables, global store, modules, localStorage, sessionStorage, deployments, function documentation, DOM manipulation, and maintaining global application state.
 
 ## Concepts Learned
